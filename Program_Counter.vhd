@@ -10,23 +10,23 @@ entity Program_Counter is
 end Program_Counter;
 
 architecture Behavioral of Program_Counter is
---signal Data_aux:STD_LOGIC_VECTOR(31 downto 0);
+signal Data_aux:STD_LOGIC_VECTOR(31 downto 0);
 
 begin
 
-process (Clk,rst)
+process (Clk)
 begin
 
 if (rising_edge (Clk)) then 
   if(rst = '0') then
-		Data_Out <= Data_In;
+		Data_aux <= Data_In;
 	else
-		Data_Out <= "00000000000000000000000000000000";
+		Data_aux <= "00000000000000000000000000000000";
 	end if;
 end if;
 
 end process;
---Data_Out <=Data_aux;
+Data_Out <=Data_aux;
 
 end Behavioral;
 
