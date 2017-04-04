@@ -46,24 +46,24 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin		
-		op <="01";
+		op <="10";
      Op3 <= "000000";
 	  
 	  wait for 10 ns;
-	  op <="01";
+	  op <="10";
      Op3 <= "000010";
 	  wait for 10 ns;
-	  op <="01";
+	  op <="10";
      Op3 <= "000100";
 	  wait for 10 ns;
 	  op <="00";
      Op3 <= "000000";
 	  wait for 10 ns;
-	  op <="01";
+	  op <="10";
      Op3 <= "000000";
 	  
 	  wait for 10 ns;
-	  op <="01";
+	  op <="10";
      Op3 <= "100000";
 	  
       wait;

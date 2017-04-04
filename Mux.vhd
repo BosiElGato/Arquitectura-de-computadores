@@ -22,6 +22,6 @@ if (i = '1') then
 else
 	Mux_Out <= Crs2;
 end if;
-end process; 
+end process;
 end Behavioral;
 

@@ -30,7 +30,7 @@ impure function InitRomFromFile (RomFileName : in string) return rom_type is
 		return temp_mem;
 	end function;
 	
-signal instructions : rom_type := InitRomFromFile("prueba.data");
+signal instructions : rom_type := InitRomFromFile("pruebad.data");
 
 begin
 

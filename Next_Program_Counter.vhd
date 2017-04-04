@@ -12,23 +12,23 @@ Port ( Data_In : in  STD_LOGIC_VECTOR (31 downto 0);
 end Next_Program_Counter;
 
 architecture Behavioral of Next_Program_Counter is
-signal Data_aux:STD_LOGIC_VECTOR(31 downto 0);
+--signal Data_aux:STD_LOGIC_VECTOR(31 downto 0);
 
 begin
 
-process (Clk)
+process (Clk,rst)
 begin
 
 if (rising_edge (Clk)) then 
   if(rst = '0') then
-		Data_aux <= Data_In;
+		Data_Out <= Data_In;
 	else
-		Data_aux <= "00000000000000000000000000000000";
+		Data_Out <= "00000000000000000000000000000000";
 	end if;
 end if;
 
 end process;
-Data_Out <=Data_aux;
+--Data_Out <=Data_aux;
 
 end Behavioral;
 
