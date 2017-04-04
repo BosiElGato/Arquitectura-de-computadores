@@ -16,11 +16,11 @@ end Register_File;
 
 architecture Behavioral of Register_File is
 
-type ram_type is array (0 to 39) of std_logic_vector (31 downto 0);
+type ram_type is array (0 to 31) of std_logic_vector (31 downto 0);
 signal registers : ram_type :=(others => x"00000000");
 
 begin
-process(Rs1,Rs2,Rd,Rst,Dwr)
+process(Rs1,Rs2,Rd,Rst,Dwr,registers)
 begin
 	if(Rst='1')then
 		CRs1 <= "00000000000000000000000000000000";

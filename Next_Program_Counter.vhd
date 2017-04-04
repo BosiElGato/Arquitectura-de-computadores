@@ -2,14 +2,16 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-entity Program_Counter is
-    Port ( Data_In : in  STD_LOGIC_VECTOR (31 downto 0);
+
+
+entity Next_Program_Counter is
+Port ( Data_In : in  STD_LOGIC_VECTOR (31 downto 0);
            rst : in  STD_LOGIC;
            Clk : in  STD_LOGIC;
            Data_Out : out  STD_LOGIC_VECTOR (31 downto 0));
-end Program_Counter;
+end Next_Program_Counter;
 
-architecture Behavioral of Program_Counter is
+architecture Behavioral of Next_Program_Counter is
 --signal Data_aux:STD_LOGIC_VECTOR(31 downto 0);
 
 begin

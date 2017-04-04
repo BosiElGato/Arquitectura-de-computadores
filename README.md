@@ -1,2 +1,4 @@
-# Arquitectura-de-computadores
-Primer porgrama de arquitectura
+Jorge Adrian Jaramillo Cruz
+Andres Ocampo Medina
+
+
