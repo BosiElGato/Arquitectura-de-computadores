@@ -21,9 +21,9 @@ end component;
 
 
 Component Register_File is
-    Port ( Rs1 : in  STD_LOGIC_VECTOR (4 downto 0);
-           Rs2 : in  STD_LOGIC_VECTOR (4 downto 0);
-           Rd : in  STD_LOGIC_VECTOR (4 downto 0);
+    Port ( Rs1 : in  STD_LOGIC_VECTOR (5 downto 0);
+           Rs2 : in  STD_LOGIC_VECTOR (5 downto 0);
+           Rd : in  STD_LOGIC_VECTOR (5 downto 0);
            Rst : in  STD_LOGIC;
            Dwr : in  STD_LOGIC_VECTOR (31 downto 0);
            CRs1 : out  STD_LOGIC_VECTOR (31 downto 0);
@@ -90,8 +90,25 @@ component PSR is
     Port ( NZVC : in  STD_LOGIC_VECTOR (3 downto 0);
 			  Rst : in  STD_LOGIC;
 			  clk : in  STD_LOGIC;
-           Carry : out  STD_LOGIC);
+           Ncwp : in STD_LOGIC_VECTOR (1 downto 0);
+           Carry : out  STD_LOGIC;
+			  Cwp : out STD_LOGIC_VECTOR(1 downto 0));
 end component;
+
+component Windows_Manager is
+    Port ( Rs1 : in  STD_LOGIC_VECTOR (4 downto 0);
+           Rs2 : in  STD_LOGIC_VECTOR (4 downto 0);
+           Rd : in  STD_LOGIC_VECTOR (4 downto 0);
+           Cwp : in  STD_LOGIC_VECTOR (1 downto 0);
+           Op : in  STD_LOGIC_VECTOR(1 downto 0);
+           Op3 : in  STD_LOGIC_VECTOR (5 downto 0);
+           Ncwp : out  STD_LOGIC_VECTOR(1 downto 0);
+           Nrs1 : out  STD_LOGIC_VECTOR (5 downto 0);
+           Nrs2 : out  STD_LOGIC_VECTOR (5 downto 0);
+           Nrd : out  STD_LOGIC_VECTOR (5 downto 0);
+			  R7  : out  STD_LOGIC_VECTOR (5 downto 0));
+end component;
+
 
 
 	signal outadder_NPC : std_logic_vector(31 downto 0);
@@ -106,6 +123,12 @@ end component;
 	signal Imm_out_aux :std_logic_vector(31 downto 0); 
 	signal NZVC_aux : std_logic_vector(3 downto 0); 
 	signal carry_aux :  std_logic;
+	signal Cwp_OutPSR : STD_LOGIC_VECTOR(1 downto 0);
+	signal Out_WM_to_Psr : STD_LOGIC_VECTOR(1 downto 0);
+	signal Nrs1_aux  : std_logic_vector(5 downto 0); 
+	signal Nrs2_aux  : std_logic_vector(5 downto 0);
+	signal Nrd_aux  : std_logic_vector(5 downto 0);
+	
 
 begin
 
@@ -143,12 +166,11 @@ UnidadControl: Control_Unity PORT MAP(
            Op =>Out_IM(31 downto 30),
            AluOp =>outUC_ALU
 	);
-		
 RegisterFile1 : Register_File PORT MAP (
 
-			  Rs1 =>Out_IM(18 downto 14 ),
-           Rs2 =>Out_IM(4 downto 0 ),
-           Rd =>Out_IM(29 downto 25),
+			  Rs1 =>Nrs1_aux ,
+           Rs2 =>Nrs2_aux ,
+           Rd =>Nrd_aux,
            Rst =>RST,
            Dwr =>OutALu_RF,
            CRs1 => outRF_Alu,
@@ -171,7 +193,10 @@ ProcessorStateRegister: PSR PORT MAP(
 			  NZVC => NZVC_aux,
 			  Rst => RST,
 			  clk => CLK,
-           Carry => carry_aux
+           Carry => carry_aux,
+			  Ncwp => Out_WM_to_Psr,
+			  Cwp => Cwp_OutPSR
+			  
 );
 
 AritmeticLogicUnity : Alu PORT MAP (
@@ -188,6 +213,21 @@ ProcesorStateModifier: PSR_Modifier  PORT MAP(
            OP2 =>Mux_out_aux(31),
            AluOp =>outUC_ALU,
            NZVC => NZVC_aux
+);
+
+
+MultiWindow: Windows_Manager PORT MAP( 
+			  Rs1 =>  Out_IM(18 downto 14 ),
+           Rs2 => Out_IM(4 downto 0 ),
+           Rd =>  Out_IM(29 downto 25),
+           Cwp=> Cwp_OutPSR,
+           Op =>Out_IM(31 downto 30),
+           Op3 => Out_IM(24 downto 19),
+           Ncwp => Out_WM_to_Psr,
+           Nrs1 =>  Nrs1_aux ,
+           Nrs2 =>  Nrs2_aux ,
+           Nrd =>  Nrd_aux 
+			  --R7  : out  STD_LOGIC_VECTOR (5 downto 0));
 );
 
 
