@@ -7,21 +7,24 @@ entity PSR is
     Port ( NZVC : in  STD_LOGIC_VECTOR (3 downto 0);
 			  Rst : in  STD_LOGIC;
 			  clk : in  STD_LOGIC;
-           Carry : out  STD_LOGIC);
+			  Ncwp : in STD_LOGIC_VECTOR (1 downto 0);
+           Carry : out  STD_LOGIC;
+			  Cwp : out STD_LOGIC_VECTOR(1 downto 0));
 end PSR;
 
 architecture Behavioral of PSR is
-signal PSR_register :STD_LOGIC_VECTOR(31 DOWNTO 0):=(others =>'0');
+--signal PSR_register :STD_LOGIC_VECTOR(31 DOWNTO 0):=(others =>'0');
 
 begin
-process(clk)
+process(clk,Rst,NZVC)
 begin
 	if (rising_edge(clk)) then 
 		if (Rst = '1') then 
-			carry <= '0';
+			Carry <= '0';
+			Cwp <= "00";
 		else
-			PSR_register (23 downto 20) <= NZVC;
-			carry<=PSR_register(20);
+			Cwp <= Ncwp;
+			Carry <=NZVC(0);
 		end if;
 	end if;
 end process;
