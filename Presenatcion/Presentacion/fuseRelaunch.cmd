@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -o "C:/Users/utp.CRIE/Desktop/Presenatcion/Presentacion/TB_Processor_Complete_isim_beh.exe" -prj "C:/Users/utp.CRIE/Desktop/Presenatcion/Presentacion/TB_Processor_Complete_beh.prj" "work.TB_Processor_Complete" 
